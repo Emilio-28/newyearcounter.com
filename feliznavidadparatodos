@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #000, #333333);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .countdown {
+            font-size: 100px;
+            color: rgb(255, 255, 255);
+            position: relative;
+            left: 1.05em
+        }
+        .time {
+            padding: 0 5px;
+        }
+        .dia {
+            position: relative;
+            display: inline-block;
+            background-color: #00;
+            padding: 0px;
+            font-size: 20px;
+            color: white;
+        }
+        .dia span {
+            position: absolute;
+            top: 65px;
+            right: 450px;
+            font-size: 35px;
+        }
+        .horas {
+            position: relative;
+            display: inline-block;
+            background-color: #00;
+            padding: 0px;
+            font-size: 20px;
+            color: white;
+        }
+        .horas span {
+            position: absolute;
+            top: 65px;
+            right: 260px;
+            font-size: 35px;
+        }
+        .minutos {
+            position: relative;
+            display: inline-block;
+            background-color: #00;
+            padding: 0px;
+            font-size: 20px;
+            color: white;
+        }
+        .minutos {
+            position: relative;
+            top: 85px;
+            right: 180px;
+            font-size: 35px;
+        }
+        .segundos {
+            position: relative;
+            display: inline-block;
+            background-color: #00;
+            padding: 0px;
+            font-size: 20px;
+            color: white;
+        }
+        .segundos {
+            position: relative;
+            top: 85px;
+            right: 135px;
+            font-size: 35px;
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown">
+        <span class="time">0</span> :
+        <span class="time">0</span> :
+        <span class="time">0</span> :
+        <span class="time">0</span> :
+        <span class="time">0</span>
+    </div>
+    <div class="dia">
+        <span>Días</span>
+    </div>
+    <div class="horas">
+        <span>Horas</span>
+    </div>
+    <div class="minutos">
+        <span>Minutos</span>
+    </div>
+    <div class="segundos">
+        <span>Segundos</span>
+    </div>
+    <script>
+        function updateCountdown(timeRemaining) {
+            const countdown = document.querySelector('.countdown');
+            const days = Math.floor(timeRemaining / (3600 * 24));
+            const hours = Math.floor((timeRemaining % (3600 * 24)) / 3600);
+            const minutes = Math.floor((timeRemaining % 3600) / 60);
+            const seconds = timeRemaining % 60;
+
+            // Check if the countdown has reached 0 or negative value
+            if (timeRemaining <= 0) {
+                // Set all the time values to 0
+                countdown.innerHTML = '00 : 00 : 00 : 00';
+            } else {
+                countdown.innerHTML = `${days.toString().padStart(2, '0')} : ${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        function calculateTimeRemaining(endTime) {
+            const totalSeconds = Math.floor((endTime - new Date()) / 1000);
+            return totalSeconds > 0 ? totalSeconds : 0;
+        }
+
+        function countdownTimer(endTime) {
+            const timeRemaining = calculateTimeRemaining(endTime);
+            updateCountdown(timeRemaining);
+
+            if (timeRemaining > 0) {
+                setTimeout(() => countdownTimer(endTime), 1000);
+            }
+        }
+
+        const endTime = new Date('31 Dec 2023 20:00:00');
+        countdownTimer(endTime);
+    </script>
+</body>
+</html>
